@@ -1,11 +1,19 @@
 main {
-    background-color: #008079;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #111111;
+    color: #222222;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+    color: #222222;
+}
+
+#title {
+    border-bottom: #222222 1px solid;
+    margin-bottom: 1rem;
 }
 
 .container {
@@ -13,9 +21,21 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    border-bottom: black 1px solid;
     width: 75%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: #222222 1px solid;
+    width: 100%;
+    background-color: #008079;
+    margin: 1rem;
+    min-height: 10rem;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .inputs-grid {
