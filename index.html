@@ -5,52 +5,67 @@
     </head>
     <body>
         <main>
-            <div class="container" id="title">
+            <div id="title">
                 <h1>Hello Quality Logic!</h1>
-                <h2>Each section contains testable elements:</h2>
+                <h2>Each section contains testable elements</h2>
             </div>
 
             <div class="container" id="video">
                 <h3>Sample video:</h3>
-                <a href="./mp4-sample.html">Sample Vid</a>
+                <div class="content">
+                    <video controls>
+                        <source src="./assets/sample-mp4-file.mp4">
+                    </video>
+                    <a href="./mp4-sample.html">Link to sample video page</a>
+                </div>
             </div>
 
             <div class="container" id="external link">
                 <h3>External site:</h3>
-                <a href="https://www.yahoo.com">
-                    <button>click me!</button>
-                </a>
+                    <div class="content">
+                    <p>Click the link below to navigate</p>
+                    <a href="https://www.yahoo.com">
+                        <button>click me!</button>
+                    </a>
+                </div>
             </div>
             <div class="container" id="image">
                 <h3>External link with image:</h3>
-                <a href="https://www.google.com">
-                    <div>
+                <div class="content">
+                    <p>Click the image below to navigate</p>
+                    <a href="https://www.google.com">
                         <div>
                             <div>
-                                <img width="100px" height="100px" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wallpapersafari.com%2F34%2F16%2FiWG2r1.jpg&f=1&nofb=1&ipt=1c52d9dffdf14b46e52dbf99a9a2fb9265c2c1423e06a551e2a9305a064d8e81&ipo=images"/>
+                                <div>
+                                    <img width="100px" height="100px" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wallpapersafari.com%2F34%2F16%2FiWG2r1.jpg&f=1&nofb=1&ipt=1c52d9dffdf14b46e52dbf99a9a2fb9265c2c1423e06a551e2a9305a064d8e81&ipo=images"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
             <div class="container" id="datepicker">
                 <h3>Date pickers inputs:</h3>
-                <form class="inputs-grid">
-                    <label for="input-date">input-date:</label>
-                    <input type="date" id="input-date" name="input-date" value="2018-07-22" min="2018-01-01" max="2030-12-31" />
-                    <label for="input-time">input-time:</label>
-                    <input type="time" id="input-time" name="input-time" />
-                    <label for="input-datetime-local">datetime-local:</label>
-                    <input type="datetime-local" id="input-datetime-local" name="input-datetime-local" value="2018-07-22" min="2018-01-01" max="2030-12-31" />
-                    <label for="input-month">input-month:</label>
-                    <input type="month" id="input-month" name="input-month" value="2021-04"/>
-                    <label for="input-week">input-week</label>
-                    <input type="week" id="input-week" name="input-week" value="2021-W30" />
-                </form>
+                <div class="content">
+                    <form class="inputs-grid">
+                        <label for="input-date">input-date:</label>
+                        <input type="date" id="input-date" name="input-date" value="2018-07-22" min="2018-01-01" max="2030-12-31" />
+                        <label for="input-time">input-time:</label>
+                        <input type="time" id="input-time" name="input-time" />
+                        <label for="input-datetime-local">datetime-local:</label>
+                        <input type="datetime-local" id="input-datetime-local" name="input-datetime-local" value="2018-07-22" min="2018-01-01" max="2030-12-31" />
+                        <label for="input-month">input-month:</label>
+                        <input type="month" id="input-month" name="input-month" value="2021-04"/>
+                        <label for="input-week">input-week</label>
+                        <input type="week" id="input-week" name="input-week" value="2021-W30" />
+                    </form>
+                </div>
             </div>
             <div class="container" id="iframe">
                 <h3>iframe:</h3>
-                <blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Eldenring/comments/1f3cn5o/not_gonna_lie_i_had_this_going_a_bit_differently/">Not gonna lie, I had this going a bit differently in my head.</a><br> by<a href="https://www.reddit.com/user/TwistedBobbay/">u/TwistedBobbay</a> in<a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>
+                <div class="content">
+                    <blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Eldenring/comments/1f3cn5o/not_gonna_lie_i_had_this_going_a_bit_differently/">Not gonna lie, I had this going a bit differently in my head.</a><br> by<a href="https://www.reddit.com/user/TwistedBobbay/">u/TwistedBobbay</a> in<a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>
+                </div>
             </div>
         </main>
     </body>
