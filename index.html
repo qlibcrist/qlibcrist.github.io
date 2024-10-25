@@ -2,6 +2,8 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     </head>
     <body>
         <main>
@@ -74,9 +76,32 @@
                 </form>
             </div>
             <div class="container" id="iframe">
-                <h3>iframe:</h3>
+                <h3>External iframe:</h3>
                 <div class="content">
                     <blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Eldenring/comments/1f3cn5o/not_gonna_lie_i_had_this_going_a_bit_differently/">Not gonna lie, I had this going a bit differently in my head.</a><br> by<a href="https://www.reddit.com/user/TwistedBobbay/">u/TwistedBobbay</a> in<a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>
+                </div>
+            </div>
+            <div class="container" id="iframe">
+                <h3>Internal iframe:</h3>
+                <div class="content">
+                    <iframe src="iframe.html"></iframe>
+                </div>
+            </div>
+            <div class="container" id="iframe-rte">
+                <h3>Rich text editor</h3>
+                <div class="content">
+                    <div id="editor-container">
+                        <div id="editor">
+                            <h2>Demo Content</h2>
+                            <p>Preset build with <code>snow</code> theme, and some common formats.</p>
+                        </div>
+                        
+                        <script>
+                            const quill = new Quill('#editor', {
+                            theme: 'snow'
+                            });
+                        </script>
+                    </div>
                 </div>
             </div>
         </main>
