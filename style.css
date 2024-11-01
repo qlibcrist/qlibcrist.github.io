@@ -49,3 +49,24 @@ p {
     width: 50%;
     background-color: white;
 }
+
+.dialogs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: auto;
+    gap: 1rem;
+}
+
+.dialog-closed {
+    display: none;
+}
+
+.dialog-open {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 2rem;
+    border: 2px solid black;
+}

@@ -46,6 +46,38 @@
                     </a>
                 </div>
             </div>
+            <div class="container">
+                <h3>Dialogs:</h3>
+                <div class="dialogs-grid">
+                    <div class="dialog-container">
+                        <h4>Simple dialog</h4>
+                        <button id="dialog-open-simple">Open dialog</button>
+                        <dialog id="dialog-simple">
+                            <p>This is a simple dialog that toggles open and closed.</p>
+                            <button id="dialog-close-simple">Close</button>
+                        </dialog>
+                    </div>
+                    <div class="dialog-container">
+                        <h4>Dialog containing a form</h4>
+                        <button id="dialog-open-with-form">Open dialog</button>
+                        <dialog id="dialog-with-form">
+                            <p>This dialog contains a form.</p>
+                            <form id="dialog-with-form-form">
+                                <input type="text" name="text-input" placeholder="Enter some text here">
+                                <input type="submit" value="Submit Form">
+                            </form>
+                        </dialog>
+                    </div>
+                    <div class="dialog-container">
+                        <h4>Div with role=dialog</h4>
+                        <button id="dialog-open-div">Open dialog</button>
+                        <div id="dialog-div" role="dialog" class="dialog-closed">
+                            <p>This dialog is really a div.</p>
+                            <button id="dialog-close-div">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container" id="datepicker">
                 <h3>Date pickers inputs:</h3>
                 <div class="content">
@@ -134,5 +166,43 @@
                 </div>
             </div>
         </main>
+
+        <script>
+            const simpleDialog = document.getElementById('dialog-simple');
+            const simpleDialogOpenButton = document.getElementById('dialog-open-simple');
+            const simpleDialogCloseButton = document.getElementById('dialog-close-simple');
+
+            simpleDialogOpenButton.addEventListener('click', () => {
+                simpleDialog.showModal();
+            });
+            simpleDialogCloseButton.addEventListener('click', () => {
+                simpleDialog.close();
+            });
+
+            const formDialog = document.getElementById('dialog-with-form');
+            const formDialogForm = document.getElementById('dialog-with-form-form');
+            const formDialogOpenButton = document.getElementById('dialog-open-with-form');
+
+            formDialogOpenButton.addEventListener('click', () => {
+                formDialog.showModal();
+            });
+            formDialogForm.addEventListener('submit', e => {
+                e.preventDefault();
+                console.log(e);
+                formDialog.close();
+            });
+
+            const divDialog = document.getElementById('dialog-div');
+            const divDialogOpenButton = document.getElementById('dialog-open-div');
+            const divDialogCloseButton = document.getElementById('dialog-close-div');
+
+            divDialogOpenButton.addEventListener('click', () => {
+                divDialog.classList.replace('dialog-closed', 'dialog-open');
+            })
+
+            divDialogCloseButton.addEventListener('click', () => {
+                divDialog.classList.replace('dialog-open', 'dialog-closed');
+            })
+        </script>
     </body>
 </html>
