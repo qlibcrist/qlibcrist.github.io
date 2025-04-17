@@ -2,8 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
     </head>
     <body>
         <main>
@@ -152,16 +151,7 @@
                 <h3>Rich text editor</h3>
                 <div class="content">
                     <div id="editor-container">
-                        <div id="editor">
-                            <h2>Demo Content</h2>
-                            <p>Preset build with <code>snow</code> theme, and some common formats.</p>
-                        </div>
-                        
-                        <script>
-                            const quill = new Quill('#editor', {
-                            theme: 'snow'
-                            });
-                        </script>
+                        <iframe style="width: 100%; height: 75vh" src="./quillEditor.html"></iframe>
                     </div>
                 </div>
                 <div class="content">
@@ -171,43 +161,5 @@
                 </div>
             </div>
         </main>
-
-        <script>
-            const simpleDialog = document.getElementById('dialog-simple');
-            const simpleDialogOpenButton = document.getElementById('dialog-open-simple');
-            const simpleDialogCloseButton = document.getElementById('dialog-close-simple');
-
-            simpleDialogOpenButton.addEventListener('click', () => {
-                simpleDialog.showModal();
-            });
-            simpleDialogCloseButton.addEventListener('click', () => {
-                simpleDialog.close();
-            });
-
-            const formDialog = document.getElementById('dialog-with-form');
-            const formDialogForm = document.getElementById('dialog-with-form-form');
-            const formDialogOpenButton = document.getElementById('dialog-open-with-form');
-
-            formDialogOpenButton.addEventListener('click', () => {
-                formDialog.showModal();
-            });
-            formDialogForm.addEventListener('submit', e => {
-                e.preventDefault();
-                console.log(e);
-                formDialog.close();
-            });
-
-            const divDialog = document.getElementById('dialog-div');
-            const divDialogOpenButton = document.getElementById('dialog-open-div');
-            const divDialogCloseButton = document.getElementById('dialog-close-div');
-
-            divDialogOpenButton.addEventListener('click', () => {
-                divDialog.classList.replace('dialog-closed', 'dialog-open');
-            })
-
-            divDialogCloseButton.addEventListener('click', () => {
-                divDialog.classList.replace('dialog-open', 'dialog-closed');
-            })
-        </script>
     </body>
 </html>
