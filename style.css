@@ -7,6 +7,10 @@ main {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
+#richtext {
+    width: 70vw;
+}
+
 p {
     color: #222222;
 }
