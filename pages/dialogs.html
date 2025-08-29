@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <div class="container" id="dialogs">
+            <div id="link-container">
+                <a href="../index.html">Home</a>
+            </div>
+            <h3>Dialogs</h3>
+            <div class="input-grid">
+                <button id="show-simple-dialog">Show simple dialog</button>
+                <dialog id="simple-dialog">
+                    <p>This is a simple dialog.</p>
+                    <button id="close-simple-dialog">Close dialog</button>
+                </dialog>
+                <button id="show-form-dialog">Show dialog with form</button>
+                <dialog id="form-dialog">
+                    <form>
+                        <input name="whatever" placeholder="Enter some text here (or not)" type="text" />
+                        <input type="submit" value="Submit form" />
+                    </form>
+                </dialog>
+                <script>
+                    const simpleDialog = document.getElementById('simple-dialog');
+                    document.getElementById('show-simple-dialog').addEventListener('click', () => {
+                        simpleDialog.show();
+                    });
+                    document.getElementById('close-simple-dialog').addEventListener('click', () => {
+                        simpleDialog.close();
+                    })
+                    const formDialog = document.getElementById('form-dialog');
+                    document.getElementById('show-form-dialog').addEventListener('click', () => {
+                        formDialog.show();
+                    });
+                    const formDialogForm = document.querySelector('#form-dialog form');
+                    formDialogForm.addEventListener('submit', e => {
+                        e.preventDefault();
+                        formDialog.close();
+                    })
+                </script>
+            </div>
+        </div>
+    </body>
+</html>

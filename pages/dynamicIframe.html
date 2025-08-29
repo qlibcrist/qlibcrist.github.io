@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+        <style>
+            #iframe-injected {
+                width: 700px;
+                height: 250px;
+                border: 2px solid #333;
+                margin-top: 20px;
+            }
+
+            #dyno {
+                padding: 10px 16px;
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" id="iframe-dyno">
+            <div id="link-container">
+                <a href="../index.html">Home</a>
+            </div>
+            <h3>Dynamic iframe</h3>
+            <div class="content">
+                <h4>Test Page: Inject Dynamic Iframe with Editable Body</h2>
+                <button id="dyno" onclick="injectDynamicIframe()">Add Editable Iframe</button>
+                <div id="iframe-wrapper"></div>
+            </div>
+        </div>
+        <script>
+            function injectDynamicIframe() {
+                const iframe = document.createElement("iframe");
+                iframe.id = "iframe-injected";
+                iframe.src = "../assets/editor-blank.html"; // must match the path served by your dev server
+                iframe.style.width = "500px";
+                iframe.style.height = "300px";
+                iframe.style.border = "2px solid #444";
+                iframe.style.marginTop = "20px";
+
+                document.getElementById("iframe-wrapper").appendChild(iframe);
+
+                iframe.onload = () => {
+                    console.log("Dynamic iframe loaded with blank RTE HTML");
+                    const win = iframe.contentWindow;
+                    const body = iframe.contentDocument?.body;
+
+                    if (body) {
+                        body.focus();
+                    }
+                };
+            }
+        </script>
+    </body>
+</html>
