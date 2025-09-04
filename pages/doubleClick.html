@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+        <style>
+            #dbl-click-area {
+                background-color: red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 1em;
+                width: 9em;
+                height: 3em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" id="datepicker">
+            <div id="link-container">
+                <a href="../index.html">Home</a>
+            </div>
+
+            <h3>Double Click</h3>
+            <div class="content">
+                <button id="dbl-click-btn">Double click me!</button>
+                <div id="dbl-click-area">
+                    No double click :(
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        document.getElementById("dbl-click-btn").addEventListener("dblclick", () => {
+            const area = document.getElementById("dbl-click-area")
+            area.style.backgroundColor = "green"
+            area.style.color = "white"
+            area.innerText = "Yay! Double click :)"
+        })
+    </script>
+</html>
