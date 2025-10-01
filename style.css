@@ -26,10 +26,6 @@ img {
     background-color: #FAF9F6;
 }
 
-#main {
-    background-color: ;
-}
-
 #title {
     border-bottom: #222222 1px solid;
     margin-bottom: 1rem;
@@ -48,6 +44,16 @@ img {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2rem;
+    border: #222222 2px solid;
+    width: 100%;
+    background-color: #008079;
+    margin: 1rem;
+    min-height: 10rem;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.content-file-upload {
     padding: 2rem;
     border: #222222 2px solid;
     width: 100%;
@@ -91,3 +97,10 @@ img {
     color: #003D3A;
 }
 
+#dropZone {
+    border: #222222 2px dashed;
+    padding: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

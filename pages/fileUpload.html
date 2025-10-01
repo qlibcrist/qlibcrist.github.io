@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="link-container">
+                <a href="../index.html">Home</a>
+            </div>
+
+            <h3>File Uploader (Img/Video):</h3>
+            <div class="content-file-upload">
+                <label for="fileInput">Choose images or videos:</label>
+                <input id="fileInput" type="file" accept="image/*,video/*" multiple />
+
+                <p>— or drop files below:—</p>
+                <div id="dropZone" tabindex="0" role="region" aria-label="Drop files here">
+                    Drop zone
+                </div>
+
+                <p>
+                    <button id="clearBtn" type="button">Clear all</button>
+                </p>
+
+                <h2>Selected Files</h2>
+                <ul id="list"></ul>
+
+                <template id="itemTemplate">
+                    <li>
+                    <div class="meta"></div>
+                    <div class="preview"></div>
+                    <button class="remove" type="button">Remove</button>
+                    </li>
+                </template>
+
+                <script>
+                    (function () {
+                    const input = document.getElementById("fileInput");
+                    const dropZone = document.getElementById("dropZone");
+                    const list = document.getElementById("list");
+                    const template = document.getElementById("itemTemplate");
+                    const clearBtn = document.getElementById("clearBtn");
+
+                    // Keep track of items so we can revoke object URLs on remove/clear
+                    const items = new Map();
+                    let nextId = 0;
+
+                    function humanSize(bytes) {
+                        if (bytes < 1024) return bytes + " B";
+                        const kb = bytes / 1024;
+                        if (kb < 1024) return kb.toFixed(1) + " KB";
+                        const mb = kb / 1024;
+                        if (mb < 1024) return mb.toFixed(2) + " MB";
+                        const gb = mb / 1024;
+                        return gb.toFixed(2) + " GB";
+                    }
+
+                    function addFiles(fileList) {
+                        const batch = [];
+                        for (const file of fileList) {
+                        const type = (file.type || "").toLowerCase();
+                        const isImage = type.startsWith("image/");
+                        const isVideo = type.startsWith("video/");
+                        if (!isImage && !isVideo) {
+                            console.warn("Skipping unsupported file:", file.name, type);
+                            continue;
+                        }
+
+                        const id = String(nextId++);
+                        const url = URL.createObjectURL(file);
+                        const li = template.content.firstElementChild.cloneNode(true);
+                        const metaDiv = li.querySelector(".meta");
+                        const previewDiv = li.querySelector(".preview");
+                        const removeBtn = li.querySelector(".remove");
+
+                        metaDiv.textContent =
+                            file.name + " • " + (file.type || "unknown") + " • " + humanSize(file.size);
+
+                        if (isImage) {
+                            const img = document.createElement("img");
+                            img.src = url;
+                            img.alt = file.name;
+                            img.addEventListener(
+                            "load",
+                            () => {
+                                metaDiv.textContent +=
+                                " • " + img.naturalWidth + "×" + img.naturalHeight + "px";
+                            },
+                            { once: true }
+                            );
+                            previewDiv.appendChild(img);
+                        } else if (isVideo) {
+                            const vid = document.createElement("video");
+                            vid.src = url;
+                            vid.controls = true;
+                            vid.addEventListener(
+                            "loadedmetadata",
+                            () => {
+                                const secs = Math.round(vid.duration || 0);
+                                metaDiv.textContent +=
+                                " • " + secs + "s • " + vid.videoWidth + "×" + vid.videoHeight + "px";
+                            },
+                            { once: true }
+                            );
+                            previewDiv.appendChild(vid);
+                        }
+
+                        removeBtn.addEventListener("click", () => {
+                            URL.revokeObjectURL(url);
+                            items.delete(id);
+                            li.remove();
+                            console.log("Removed:", file.name);
+                        });
+
+                        list.appendChild(li);
+                        items.set(id, { file, url, el: li });
+
+                        batch.push({
+                            name: file.name,
+                            type: file.type || "",
+                            size: file.size,
+                            kind: isImage ? "image" : "video"
+                        });
+                        }
+
+                        // Optional: emit a custom event summarizing the batch (useful for instrumentation)
+                        if (batch.length) {
+                        window.dispatchEvent(
+                            new CustomEvent("client-upload", { detail: { files: batch, ts: Date.now() } })
+                        );
+                        console.log("client-upload event:", batch);
+                        }
+                    }
+
+                    // File picker
+                    input.addEventListener("change", (e) => {
+                        if (e.target.files && e.target.files.length) addFiles(e.target.files);
+                        // Reset input so selecting the same file again still triggers "change"
+                        input.value = "";
+                    });
+
+                    // Drag & drop
+                    ["dragenter", "dragover", "dragleave", "drop"].forEach((ev) => {
+                        dropZone.addEventListener(ev, (e) => {
+                        e.preventDefault();
+                        if (ev === "drop") {
+                            const files = e.dataTransfer && e.dataTransfer.files;
+                            if (files && files.length) addFiles(files);
+                        }
+                        });
+                    });
+
+                    // Clear all
+                    clearBtn.addEventListener("click", () => {
+                        for (const { url, el } of items.values()) {
+                        URL.revokeObjectURL(url);
+                        if (el && el.parentNode) el.parentNode.removeChild(el);
+                        }
+                        items.clear();
+                        console.log("Cleared all.");
+                    });
+
+                    // Example listener for the custom upload event
+                    // window.addEventListener("client-upload", (e) => console.log("Observed:", e.detail));
+                    })();
+                </script>
+            </div>
+        </div>
+    </body>
+</html>
