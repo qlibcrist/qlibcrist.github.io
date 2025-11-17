@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <script>
+            function dragstartHandler(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function dragoverHandler(ev) {
+                ev.preventDefault();
+            }
+
+            function dropHandler(ev) {
+                ev.preventDefault();
+                const data = ev.dataTransfer.getData("text");
+            }
+        </script>
+        <div class="container" id="dialogs">
+            <div id="link-container">
+                <a href="../index.html">Home</a>
+            </div>
+            <h3>Drag an drop coordinates</h3>
+            <div class="content">
+                <div id="drag-and-drop-container">
+                    <div draggable="true" ondrop="dropHandler(event)" ondragstart="dragstartHandler(event)" ondragover="dragoverHandler(event)" class="drag-and-drop-box">A</div>
+                    <div draggable="true" ondrop="dropHandler(event)" ondragstart="dragstartHandler(event)" ondragover="dragoverHandler(event)"draggable="true" class="drag-and-drop-box">B</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
