@@ -1,4 +1,74 @@
 <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container { width: 300px; height: 150px; border: 2px dashed #888; margin: 20px; display: flex; align-items: center; justify-content: center; }
+    #drag-me { width: 60px; height: 60px; background: royalblue; cursor: grab; z-index: 1000; }
+    /* Crucial: pointer-events none allows mouse to "see" the zone underneath */
+    .is-dragging { position: fixed !important; pointer-events: none; opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+  <div id="source" class="container">
+    <div id="drag-me">DRAG</div>
+  </div>
+
+  <div id="target" class="container">DROP ZONE</div>
+
+  <script>
+    const item = document.getElementById('drag-me');
+    const target = document.getElementById('target');
+    let offset = { x: 0, y: 0 };
+
+    item.onmousedown = (e) => {
+      const rect = item.getBoundingClientRect();
+      offset.x = e.clientX - rect.left;
+      offset.y = e.clientY - rect.top;
+      
+      item.classList.add('is-dragging');
+      moveAt(e.clientX, e.clientY);
+
+      function moveAt(pageX, pageY) {
+        item.style.left = (pageX - offset.x) + 'px';
+        item.style.top = (pageY - offset.y) + 'px';
+      }
+
+      function onMouseMove(e) {
+        moveAt(e.clientX, e.clientY);
+      }
+
+      document.addEventListener('mousemove', onMouseMove);
+
+      item.onmouseup = (e) => {
+        document.removeEventListener('mousemove', onMouseMove);
+        item.classList.remove('is-dragging');
+        
+        // Final coordinate check for dropping
+        const dropRect = target.getBoundingClientRect();
+        const isInside = (
+          e.clientX >= dropRect.left && e.clientX <= dropRect.right &&
+          e.clientY >= dropRect.top && e.clientY <= dropRect.bottom
+        );
+
+        if (isInside) {
+          target.appendChild(item); // Re-parenting pulls it from the old DOM location
+        }
+        
+        // Reset styles for the new parent's layout flow
+        item.style.position = 'static';
+        item.style.left = '';
+        item.style.top = '';
+        item.onmouseup = null;
+      };
+    };
+
+    item.ondragstart = () => false; // Prevent default browser drag ghosting
+  </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -164,4 +234,4 @@
     </script>
 </body>
 </html>
-
+ -->
