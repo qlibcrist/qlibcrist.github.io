@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinate Drag and Drop</title>
+    <style>
+        .container {
+            width: 500px;
+            height: 300px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .draggable-item {
+            width: 100px;
+            height: 50px;
+            background-color: lightblue;
+            border: 1px solid blue;
+            cursor: grab;
+            position: absolute;
+            text-align: center;
+            line-height: 50px;
+            user-select: none; /* Prevent text selection during drag */
+        }
+
+        .drop-zone {
+            width: 200px;
+            height: 150px;
+            background-color: lightgreen;
+            border: 2px dashed green;
+            margin-top: 50px;
+            margin-left: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .dragging-clone {
+            opacity: 0.7;
+            pointer-events: none; /* Allows mouse events to pass through to elements beneath */
+            position: absolute;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Coordinate-based Drag and Drop</h2>
+    <div class="container">
+        <div class="draggable-item" style="top: 10px; left: 10px;">Item 1</div>
+        <div class="drop-zone" id="dropZone">Drop Here</div>
+    </div>
+    <p>Status: <span id="status">Ready</span></p>
+
+    <script>
+        let draggedItem = null;
+        let cloneItem = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        const statusEl = document.getElementById('status');
+        const dropZone = document.getElementById('dropZone');
+
+        // 1. Mousedown event on the original element
+        document.querySelectorAll('.draggable-item').forEach(item => {
+            item.addEventListener('mousedown', (e) => {
+                draggedItem = item;
+                
+                // Calculate initial offsets relative to the mouse position
+                const rect = draggedItem.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+
+                // Create a clone for smooth visual dragging
+                cloneItem = draggedItem.cloneNode(true);
+                cloneItem.classList.add('dragging-clone');
+                cloneItem.style.width = rect.width + 'px';
+                cloneItem.style.height = rect.height + 'px';
+                document.body.appendChild(cloneItem);
+                
+                // Move the clone immediately to the mouse position
+                moveClone(e.clientX, e.clientY);
+
+                // Hide the original item while dragging
+                draggedItem.style.visibility = 'hidden';
+
+                statusEl.textContent = 'Dragging...';
+            });
+        });
+
+        // 2. Mousemove event on the whole document (to track movement anywhere)
+        document.addEventListener('mousemove', (e) => {
+            if (cloneItem && draggedItem) {
+                moveClone(e.clientX, e.clientY);
+                // Check if clone is over the drop zone
+                if (isOverDropZone(e.clientX, e.clientY, dropZone)) {
+                    dropZone.style.borderColor = 'red';
+                } else {
+                    dropZone.style.borderColor = 'green';
+                }
+            }
+        });
+
+        // 3. Mouseup event on the whole document (to stop dragging)
+        document.addEventListener('mouseup', (e) => {
+            if (cloneItem && draggedItem) {
+                document.body.removeChild(cloneItem);
+                
+                // Check if dropped within the drop zone
+                if (isOverDropZone(e.clientX, e.clientY, dropZone)) {
+                    dropItem(e.clientX, e.clientY, dropZone, draggedItem);
+                    statusEl.textContent = 'Dropped in zone!';
+                } else {
+                    // Revert to original position if not dropped in a valid zone
+                    draggedItem.style.visibility = 'visible';
+                    statusEl.textContent = 'Dropped outside zone, reverted.';
+                }
+
+                // Reset states
+                draggedItem = null;
+                cloneItem = null;
+                dropZone.style.borderColor = 'green';
+            }
+        });
+
+        // Helper function to move the clone element
+        function moveClone(clientX, clientY) {
+            // Position the clone using the current mouse coordinates minus initial offsets
+            cloneItem.style.left = (clientX - offsetX) + 'px';
+            cloneItem.style.top = (clientY - offsetY) + 'px';
+        }
+
+        // Helper function to check if a point (mouse coords) is within an element (drop zone)
+        function isOverDropZone(clientX, clientY, zone) {
+            const rect = zone.getBoundingClientRect();
+            return (
+                clientX >= rect.left &&
+                clientX <= rect.right &&
+                clientY >= rect.top &&
+                clientY <= rect.bottom
+            );
+        }
+
+        // Helper function to handle the final drop action
+        function dropItem(clientX, clientY, zone, item) {
+            const zoneRect = zone.getBoundingClientRect();
+            // Calculate the *new* position relative to the *drop zone's* top-left corner
+            const dropX = clientX - zoneRect.left - offsetX;
+            const dropY = clientY - zoneRect.top - offsetY;
+
+            // Append the original element to the new parent (the drop zone)
+            zone.appendChild(item);
+            
+            // Set its absolute position relative to the drop zone
+            item.style.left = dropX + 'px';
+            item.style.top = dropY + 'px';
+            item.style.visibility = 'visible'; // Make it visible again
+            
+        }
+    </script>
+</body>
+</html>
+
